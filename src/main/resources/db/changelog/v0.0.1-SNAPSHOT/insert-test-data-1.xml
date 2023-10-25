@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="insertTest1" author="shabinskyi">
+        <insert tableName="managers">
+            <column name="id" value="1"/>
+            <column name="first_name" value="John"/>
+            <column name="last_name" value="Doe"/>
+            <column name="email" value="manager_1@bank.app"/>
+            <column name="password" value="$2a$10$Tb4ZMG7kzZuPSdjjnd3LH.7szgiLFH15JlFBqV5grxXivzU8LyWBe"/>
+            <column name="status" value="ACTIVE"/>
+            <column name="created_at" value="2022-09-19 10:10:10"/>
+            <column name="updated_at" value="2023-05-10 15:15:15"/>
+        </insert>
+
+        <insert tableName="products">
+            <column name="id" value="1"/>
+            <column name="manager_id" value="1"/>
+            <column name="name" value="Test Product"/>
+            <column name="status" value="ACTIVE"/>
+            <column name="currency_code" value="USD"/>
+            <column name="interest_rate" value="0.05"/>
+            <column name="limit" value="10000"/>
+            <column name="created_at" value="2022-09-22 10:10:10"/>
+            <column name="updated_at" value="2023-02-15 15:15:15"/>
+        </insert>
+
+        <insert tableName="clients"> <!-- Client 1-->
+            <column name="id" valueComputed="UUID_TO_BIN('827d011d-b756-4a78-b94d-605cdad5241b')"/>
+            <column name="manager_id" value="1"/>
+            <column name="status" value="ACTIVE"/>
+            <column name="tax_code" value="12345"/>
+            <column name="first_name" value="Jane"/>
+            <column name="last_name" value="Doe"/>
+            <column name="email" value="jane.doe@example.com"/>
+            <column name="password" value="$2a$10$4KCnveZ4Tll6fBQ31hFe.e0XdNFFDDe0X45BfRXmaE1KAkia1CSMK"/>
+            <column name="address" value="123 Main St"/>
+            <column name="phone" value="+495555555555"/>
+            <column name="created_at" value="2022-11-05 10:10:10"/>
+            <column name="updated_at" value="2023-09-10 15:15:15"/>
+        </insert>
+
+        <insert tableName="clients"> <!-- Client 2-->
+            <column name="id" valueComputed="UUID_TO_BIN('a19e09c7-afb7-4119-add2-03ccea4e063a')"/>
+            <column name="manager_id" value="1"/>
+            <column name="status" value="ACTIVE"/>
+            <column name="tax_code" value="12345"/>
+            <column name="first_name" value="Mr."/>
+            <column name="last_name" value="Smith"/>
+            <column name="email" value="mr.smith@example.com"/>
+            <column name="password" value="$2a$10$Tb4ZMG7kzZuPSdjjnd3LH.7szgiLFH15JlFBqV5grxXivzU8LyWBe"/>
+            <column name="address" value="7 Street"/>
+            <column name="phone" value="+380501234567890"/>
+            <column name="created_at" value="2022-11-20 10:10:10"/>
+            <column name="updated_at" value="2023-05-10 15:15:15"/>
+        </insert>
+
+        <insert tableName="accounts"> <!-- Account for client 1 -->
+            <column name="id" valueComputed="UUID_TO_BIN('a1d63da2-1ac6-42e9-abd8-ace6259c66ce')"/>
+            <column name="client_id" valueComputed="UUID_TO_BIN('827d011d-b756-4a78-b94d-605cdad5241b')"/>
+            <column name="name" value="Savings Account"/>
+            <column name="type" value="DEPOSIT_ACCOUNT"/>
+            <column name="status" value="ACTIVE"/>
+            <column name="balance" value="1000.00"/>
+            <column name="currency_code" value="USD"/>
+            <column name="created_at" value="2022-11-05 10:10:10"/>
+            <column name="updated_at" value="2023-09-10 15:15:15"/>
+        </insert>
+
+        <insert tableName="accounts"> <!-- Account for client 2 -->
+            <column name="id" valueComputed="UUID_TO_BIN('ea014067-083f-42dd-bb0e-148fcecffe70')"/>
+            <column name="client_id" valueComputed="UUID_TO_BIN('a19e09c7-afb7-4119-add2-03ccea4e063a')"/>
+            <column name="name" value="Savings Account"/>
+            <column name="type" value="DEPOSIT_ACCOUNT"/>
+            <column name="status" value="ACTIVE"/>
+            <column name="balance" value="3000.00"/>
+            <column name="currency_code" value="USD"/>
+            <column name="created_at" value="2022-11-20 10:10:10"/>
+            <column name="updated_at" value="2023-05-10 15:15:15"/>
+        </insert>
+
+        <insert tableName="agreements"> <!-- Agreement for account 1 -->
+            <column name="id" value="1"/>
+            <column name="account_id" valueComputed="UUID_TO_BIN('a1d63da2-1ac6-42e9-abd8-ace6259c66ce')"/>
+            <column name="product_id" value="1"/>
+            <column name="interest_rate" value="0.04"/>
+            <column name="status" value="ACTIVE"/>
+            <column name="sum" value="5000.00"/>
+            <column name="created_at" value="2022-11-05 10:10:10"/>
+            <column name="updated_at" value="2023-09-10 15:15:15"/>
+        </insert>
+
+        <insert tableName="agreements"> <!-- Agreement for account 2 -->
+            <column name="id" value="2"/>
+            <column name="account_id" valueComputed="UUID_TO_BIN('ea014067-083f-42dd-bb0e-148fcecffe70')"/>
+            <column name="product_id" value="1"/>
+            <column name="interest_rate" value="0.04"/>
+            <column name="status" value="ACTIVE"/>
+            <column name="sum" value="5000.00"/>
+            <column name="created_at" value="2022-11-20 10:10:10"/>
+            <column name="updated_at" value="2023-05-10 15:15:15"/>
+        </insert>
+
+        <insert tableName="transactions">
+            <column name="id" valueComputed="UUID_TO_BIN('dcb05c4f-384d-4520-ba33-ac04b073b086')"/>
+            <column name="debit_account_id" valueComputed="UUID_TO_BIN('a1d63da2-1ac6-42e9-abd8-ace6259c66ce')"/>
+            <column name="credit_account_id" valueComputed="UUID_TO_BIN('ea014067-083f-42dd-bb0e-148fcecffe70')"/>
+            <column name="type" value="TRANSFER"/>
+            <column name="amount" value="100.00"/>
+            <column name="description" value="Test transaction"/>
+            <column name="created_at" value="2023-09-30 10:10:10"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

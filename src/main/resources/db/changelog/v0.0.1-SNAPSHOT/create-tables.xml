@@ -1,0 +1,187 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="shabinskyi" id="createManagersTable">
+        <createTable tableName="managers">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(60)"/>
+            <column name="password" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="ENUM('ACTIVE', 'BLOCKED', 'CLOSED', 'IN_ACTIVE')"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_at" type="timestamp"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_at" type="timestamp"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="shabinskyi" id="createProductsTable">
+        <createTable tableName="products">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="manager_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="ENUM('ACTIVE', 'BLOCKED', 'CLOSED', 'IN_ACTIVE')"/>
+            <column name="currency_code" type="ENUM('CNY', 'EUR', 'PLN', 'UAH', 'USD')"/>
+            <column defaultValueNumeric="0.0000" name="interest_rate" type="DECIMAL(6, 4)"/>
+            <column name="limit" type="INT"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_at" type="timestamp"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_at" type="timestamp"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="shabinskyi" id="createClientsTable">
+        <createTable tableName="clients">
+            <column name="id" type="BINARY(16)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="manager_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="ENUM('ACTIVE', 'BLOCKED', 'CLOSED', 'IN_ACTIVE')"/>
+            <column name="tax_code" type="VARCHAR(20)"/>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(60)"/>
+            <column name="password" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="VARCHAR(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_at" type="timestamp"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_at" type="timestamp"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="shabinskyi" id="createAccountsTable">
+        <createTable tableName="accounts">
+            <column name="id" type="BINARY(16)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="client_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="ENUM('CHECKING_JUNIOR', 'CHECKING_SENIOR', 'CHECKING_STUDENT', 'DEPOSIT_ACCOUNT', 'SAVINGS_ACCOUNT')"/>
+            <column name="status" type="ENUM('ACTIVE', 'BLOCKED', 'CLOSED', 'IN_ACTIVE')"/>
+            <column defaultValueNumeric="0.00" name="balance" type="DECIMAL(15, 2)"/>
+            <column name="currency_code" type="ENUM('CNY', 'EUR', 'PLN', 'UAH', 'USD')"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_at" type="timestamp"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_at" type="timestamp"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="shabinskyi" id="createAgreementsTable">
+        <createTable tableName="agreements">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="account_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="0.0000" name="interest_rate" type="DECIMAL(6, 4)"/>
+            <column name="status" type="ENUM('ACTIVE', 'BLOCKED', 'CLOSED', 'IN_ACTIVE')"/>
+            <column defaultValueNumeric="0.00" name="sum" type="DECIMAL(15, 2)"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_at" type="timestamp"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="updated_at" type="timestamp"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="shabinskyi" id="createTransactionsTable">
+        <createTable tableName="transactions">
+            <column name="id" type="BINARY(16)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="debit_account_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="credit_account_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="ENUM('DEPOSIT', 'RECURRING_PAYMENT', 'REFUND', 'TRANSFER', 'WITHDRAWAL')"/>
+            <column defaultValueNumeric="0.0000" name="amount" type="DECIMAL(12, 4)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_at" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="shabinskyi" id="1695261682134-7">
+        <createIndex indexName="FKb04ux70c9nn0yi4y3pmitlfo9" tableName="clients">
+            <column name="manager_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="shabinskyi" id="1695261682134-8">
+        <createIndex indexName="FKc6bgqjw4pbwa2xsg2ql7n5grv" tableName="transactions">
+            <column name="credit_account_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="shabinskyi" id="1695261682134-9">
+        <createIndex indexName="FKg98uwjewytai1i7fe2cu4xioi" tableName="products">
+            <column name="manager_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="shabinskyi" id="1695261682134-10">
+        <createIndex indexName="FKgymog7firrf8bnoiig61666ob" tableName="accounts">
+            <column name="client_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="shabinskyi" id="1695261682134-11">
+        <createIndex indexName="FKkpq7imh2rcolpghjxb6b8ouwc" tableName="transactions">
+            <column name="debit_account_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="shabinskyi" id="1695261682134-12">
+        <createIndex indexName="FKlshrwa9mq7iar9rwxkwdrus2r" tableName="agreements">
+            <column name="account_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="shabinskyi" id="1695261682134-13">
+        <createIndex indexName="FKvtp15t5x12x5lk4akedy8e4n" tableName="agreements">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="shabinskyi" id="1695261682134-14">
+        <addForeignKeyConstraint baseColumnNames="manager_id" baseTableName="clients" constraintName="clientToManager" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="managers" validate="true"/>
+    </changeSet>
+    <changeSet author="shabinskyi" id="1695261682134-15">
+        <addForeignKeyConstraint baseColumnNames="credit_account_id" baseTableName="transactions" constraintName="creditTransactionToAccount" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="accounts" validate="true"/>
+    </changeSet>
+    <changeSet author="shabinskyi" id="1695261682134-16">
+        <addForeignKeyConstraint baseColumnNames="manager_id" baseTableName="products" constraintName="productToManager" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="managers" validate="true"/>
+    </changeSet>
+    <changeSet author="shabinskyi" id="1695261682134-17">
+        <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="accounts" constraintName="accountToClient" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="clients" validate="true"/>
+    </changeSet>
+    <changeSet author="shabinskyi" id="1695261682134-18">
+        <addForeignKeyConstraint baseColumnNames="debit_account_id" baseTableName="transactions" constraintName="debitTransactionToAccount" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="accounts" validate="true"/>
+    </changeSet>
+    <changeSet author="shabinskyi" id="1695261682134-19">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="agreements" constraintName="agreementToAccount" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="accounts" validate="true"/>
+    </changeSet>
+    <changeSet author="shabinskyi" id="1695261682134-20">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="agreements" constraintName="agreementToProduct" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="products" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

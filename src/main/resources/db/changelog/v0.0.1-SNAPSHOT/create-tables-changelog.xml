@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="createManagersTable" author="shabinskyi">
+        <createTable tableName="managers">
+            <column name="id" type="INT">
+                <constraints primaryKey="true" nullable="false" autoIncrement="true"/>
+            </column>
+            <column name="first_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="ENUM('ACTIVE','BLOCKED','CLOSED','IN_ACTIVE')"/>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints defaultValueDate="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP">
+                <constraints defaultValueDate="CURRENT_TIMESTAMP"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createProductsTable" author="shabinskyi">
+        <createTable tableName="products">
+            <column name="id" type="INT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="manager_id" type="INT">
+                <constraints nullable="false"/>
+                <foreignKey foreignTableName="managers" foreignColumnName="id"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="ENUM('ACTIVE','BLOCKED','CLOSED','IN_ACTIVE')"/>
+            <column name="currency_code" type="ENUM('CNY','EUR','PLN','UAH','USD')"/>
+            <column name="interest_rate" type="DECIMAL(6,4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="limit" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints defaultValueComputed="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP">
+                <constraints defaultValueComputed="CURRENT_TIMESTAMP"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createClientsTable" author="shabinskyi">
+        <createTable tableName="clients">
+            <column name="id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="manager_id" type="INT">
+                <constraints nullable="false"/>
+                <foreignKey foreignTableName="managers" foreignColumnName="id"/>
+            </column>
+            <column name="status" type="ENUM('ACTIVE','BLOCKED','CLOSED','IN_ACTIVE')"/>
+            <column name="tax_code" type="VARCHAR(20)"/>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(60)"/>
+            <column name="password" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="VARCHAR(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints defaultValueComputed="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP">
+                <constraints defaultValueComputed="CURRENT_TIMESTAMP"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createAccountsTable" author="shabinskyi">
+        <createTable tableName="accounts">
+            <column name="id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="client_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+                <foreignKey foreignTableName="clients" foreignColumnName="id"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="ENUM('CHECKING_JUNIOR','CHECKING_SENIOR','CHECKING_STUDENT','DEPOSIT_ACCOUNT','SAVINGS_ACCOUNT')"/>
+            <column name="status" type="ENUM('ACTIVE','BLOCKED','CLOSED','IN_ACTIVE')"/>
+            <column name="balance" type="DECIMAL(15,2)">
+                <constraints defaultValue="0"/>
+            </column>
+            <column name="currency_code" type="ENUM('CNY','EUR','PLN','UAH','USD')"/>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints defaultValueComputed="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP">
+                <constraints defaultValueComputed="CURRENT_TIMESTAMP"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createAgreementsTable" author="shabinskyi">
+        <createTable tableName="agreements">
+            <column name="id" type="INT">
+                <constraints primaryKey="true" nullable="false" autoIncrement="true"/>
+            </column>
+            <column name="account_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+                <foreignKey foreignTableName="accounts" foreignColumnName="id"/>
+            </column>
+            <column name="product_id" type="INT">
+                <constraints nullable="false"/>
+                <foreignKey foreignTableName="products" foreignColumnName="id"/>
+            </column>
+            <column name="interest_rate" type="DECIMAL(6,4)">
+                <constraints defaultValue="0"/>
+            </column>
+            <column name="status" type="ENUM('ACTIVE','BLOCKED','CLOSED','IN_ACTIVE')"/>
+            <column name="sum" type="DECIMAL(15,2)">
+                <constraints defaultValue="0"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints defaultValueComputed="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP">
+                <constraints defaultValueComputed="CURRENT_TIMESTAMP"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createTransactionsTable" author="shabinskyi">
+        <createTable tableName="transactions">
+            <column name="id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="debit_account_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+                <foreignKey foreignTableName="accounts" foreignColumnName="id"/>
+            </column>
+            <column name="credit_account_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+                <foreignKey foreignTableName="accounts" foreignColumnName="id"/>
+            </column>
+            <column name="type" type="ENUM('TYPE_1','TYPE_2')"/>
+            <column name="amount" type="DECIMAL(12,4)">
+                <constraints defaultValue="0"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints defaultValueComputed="CURRENT_TIMESTAMP"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

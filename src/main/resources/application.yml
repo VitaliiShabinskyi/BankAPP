@@ -1,0 +1,43 @@
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+  port: 8080
+
+spring:
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+
+  datasource:
+    url: ${datasource.db_url}?createDatabaseIfNotExist=true # jdbc:mysql://localhost:3306/bank_app?createDatabaseIfNotExist=true
+    username: ${datasource.db_username}
+    password: ${datasource.db_password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  security:
+    user:
+      password: root
+      name: root
+
+#  sql:
+#    init:
+#      mode: always
+#      schema-locations: db/create_tables.v.1.0.sql
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        type: uuid-char
+        dialect: org.hibernate.dialect.MySQLDialect
+        ddl-auto: create
+
+  liquibase:
+    drop-first: false
+    change-log: classpath:/db/changelog/changelog-master.xml
+    enabled: true
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html

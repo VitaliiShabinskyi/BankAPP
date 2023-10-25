@@ -1,0 +1,4 @@
+equals, hashcode
+lombock - getter, setter
+установить БД
+hibernate

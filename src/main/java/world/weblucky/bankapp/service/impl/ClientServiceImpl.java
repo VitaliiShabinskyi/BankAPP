@@ -56,6 +56,7 @@ public class ClientServiceImpl implements ClientService {
             bindingResult.rejectValue("email", "error.clientDto", "Email already exists");
             return null;
         }
+
         Client client = clientMapper.clientToEntity(clientDto);
 
         Manager manager = managerRepository.findById(1)

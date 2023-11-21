@@ -1,7 +1,7 @@
 <th:block th:replace="~{head}"></th:block>
 
 <h1>Registration</h1>
-<form th:action="@{/registration}" method="post" th:object="${clientDto}">
+<form th:action="@{/signin}" method="post" th:object="${clientDto}">
     <label for="firstname">First Name:</label>
     <input type="text" id="firstname" th:field="*{firstName}">
     <div th:if="${#fields.hasErrors('firstName')}" class="error">

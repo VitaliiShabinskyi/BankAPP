@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Client Area</title>
-</head>
-<body>
-    <h1>Client page</h1>
-</body>
-</html>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Client Area</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<th:block th:include="head"></th:block>
+
+    <h1>Welcome, <span th:text="${firstName}"></span></h1>
+
+<section class="client_info">
+
+</section>
+
+<th:block th:include="footer"></th:block>
+
+<!--</body>-->
+<!--</html>-->

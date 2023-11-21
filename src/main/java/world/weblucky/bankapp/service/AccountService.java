@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import world.weblucky.bankapp.dto.AccountDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public interface AccountService {
@@ -12,7 +13,7 @@ public interface AccountService {
 
     void createAccount(AccountDTO accountDto);
 
-    AccountDTO getAccountById(String id);
+    AccountDTO getAccountById(UUID id);
 
     List<AccountDTO> getAllAccountsOfClient(String clientId);
 }

@@ -1,7 +1,7 @@
 package world.weblucky.bankapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 import world.weblucky.bankapp.entity.enums.AccountType;
 import world.weblucky.bankapp.entity.enums.CurrencyCode;
@@ -16,7 +16,11 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "accounts")
-@Data
+//@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,6 +30,7 @@ public class Account {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private Client client; // UUID
 
     @Column(name = "name", nullable = false, length = 100)
@@ -53,16 +58,23 @@ public class Account {
     private Timestamp updatedAt;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Agreement> agreements;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "debitAccount", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @OneToMany(mappedBy = "debitAccount")
+    @OneToMany(mappedBy = "debitAccount", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Transaction> debitTransactions;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "creditAccount", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @OneToMany(mappedBy = "creditAccount")
+    @OneToMany(mappedBy = "creditAccount", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Transaction> creditTransactions;
+
+    public Account(UUID id) {
+        this.id = id;
+    }
 
     @Override
     public boolean equals(Object o) {

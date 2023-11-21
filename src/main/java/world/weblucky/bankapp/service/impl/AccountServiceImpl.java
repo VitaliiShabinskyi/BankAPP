@@ -40,8 +40,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDTO getAccountById(String id) {
-        Account account = accountRepository.findById(UUID.fromString(id))
+    public AccountDTO getAccountById(UUID id) {
+        Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new ClientNotFoundException("Client ID: " + id + " not found"));
 
         return accountMapper.accountToDto(account);
@@ -49,7 +49,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDTO> getAllAccountsOfClient(String clientId) {
-        return accountMapper.accountsToListDto(accountRepository.findAllAccountsOfClient(UUID.fromString(clientId)));
+        return accountMapper.accountsToListDto(accountRepository.findAllAccountsOfClient(clientId));
     }
 
 }

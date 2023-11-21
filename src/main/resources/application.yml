@@ -31,13 +31,18 @@ spring:
       hibernate:
         type: uuid-char
         dialect: org.hibernate.dialect.MySQLDialect
-        ddl-auto: create
+        ddl-auto: none
+#        ddl-auto: create
 
   liquibase:
     drop-first: false
     change-log: classpath:/db/changelog/changelog-master.xml
-    enabled: true
+    enabled: false
 
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true

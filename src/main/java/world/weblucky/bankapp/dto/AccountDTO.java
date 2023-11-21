@@ -3,11 +3,13 @@ package world.weblucky.bankapp.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 public class AccountDTO {
 
-    private String id;
+    private UUID id;
     private String clientId;
 
     private String name;

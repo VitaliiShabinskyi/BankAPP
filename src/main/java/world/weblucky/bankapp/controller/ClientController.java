@@ -2,16 +2,19 @@ package world.weblucky.bankapp.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import world.weblucky.bankapp.dto.AccountDTO;
 import world.weblucky.bankapp.dto.ClientDTO;
+import world.weblucky.bankapp.entity.Client;
 import world.weblucky.bankapp.service.AccountService;
 import world.weblucky.bankapp.service.ClientService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -27,6 +30,13 @@ public class ClientController {
     @GetMapping("/{id}")
     public ClientDTO getClientById(@PathVariable String id) {
         return clientService.getClientById(id);
+    }
+
+    @GetMapping("/")
+    public String getClientInfo(Model model, Principal principal) {
+        ClientDTO clientDto = clientService.getClientById(principal.getName());
+        model.addAttribute("client", clientDto);
+        return "client";
     }
 
     @Operation(summary = "Get all clients accounts by Client.ID")

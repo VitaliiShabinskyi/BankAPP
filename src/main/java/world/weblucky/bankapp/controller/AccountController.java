@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import world.weblucky.bankapp.dto.AccountDTO;
 import world.weblucky.bankapp.service.AccountService;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/account")
 @Tag(name = "Account Controller API")
@@ -23,12 +25,14 @@ public class AccountController {
 
     @Operation(summary = "Get account by Account.ID")
     @GetMapping("/{id}")
-    public AccountDTO getAccountById(@PathVariable String id) {
-        return accountService.getAccountById(id);
+    public AccountDTO getAccountById(@PathVariable("id") String id) {
+        return accountService.getAccountById(UUID.fromString(id));
     }
 
-//    @Operation(summary = "Close account")
-//    @GetMapping("/{id}/close")
-//    public void closeAccount(@PathVariable String id)
+    @Operation(summary = "Close account")
+    @GetMapping("/{id}/close")
+    public void closeAccount(@PathVariable String id) {
+
+    }
 
 }

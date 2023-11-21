@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login page</title>
-</head>
-<body>
-    <h1>Login</h1>
-    <form action="/login" method="post">
+<div th:replace="~{head}"></div>
+
+<h1>Login</h1>
+    <form th:action="@{/login}" method="post">
         <label for="username">Email or phone:</label>
         <input type="text" id="username" name="username" value="jane.doe@example.com"><br><br>
 
@@ -17,5 +12,5 @@
         </div>
         <input type="submit" value="Submit">
     </form>
-</body>
-</html>
+
+<th:block th:replace="~{footer}"></th:block>

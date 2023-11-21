@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface AccountRepository extends JpaRepository<Account, UUID> {
 
     @Query("from Account where client.id = :clientId")
-    List<Account> findAllAccountsOfClient(UUID clientId);
+    List<Account> findAllAccountsOfClient(String clientId);
 
 //    List<Account> findById(UUID id);
 

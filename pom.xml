@@ -20,7 +20,8 @@
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <org.springdoc.version>2.2.0</org.springdoc.version>
         <io.swagger.core.v3.version>2.2.15</io.swagger.core.v3.version>
-        <org.springframework.security.version>5.5.8</org.springframework.security.version>
+        <org.springframework.security.version>6.2.0</org.springframework.security.version> <!-- 5.5.8 -->
+        <spring-security.version>6.2.0</spring-security.version>
     </properties>
     <dependencies>
         <dependency>

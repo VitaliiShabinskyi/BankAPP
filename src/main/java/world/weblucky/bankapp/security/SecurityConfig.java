@@ -1,27 +1,25 @@
 //package world.weblucky.bankapp.security;
 //
 //import lombok.RequiredArgsConstructor;
-//import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+//import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.authentication.AuthenticationProvider;
-//import org.springframework.security.config.Customizer;
 //import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+//import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 //import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-////import org.springframework.security.config.annotation.web.configuration.SecurityFilterChain;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
-//import org.springframework.security.web.DefaultSecurityFilterChain;
 //import org.springframework.security.web.SecurityFilterChain;
 //import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 //
-//import static org.springframework.security.config.Customizer.withDefaults;
+//import javax.sql.DataSource;
 //
 //@Configuration
 //@EnableWebSecurity
-////@EnableMethodSecurity
+//@EnableMethodSecurity
 //@RequiredArgsConstructor
 //public class SecurityConfig {
+//
+////    private DataSource dataSource;
 //
 //    private final PasswordEncoder passwordEncoder;
 //
@@ -29,17 +27,24 @@
 //            "/",
 //            "/login",
 //            "/signin",
-//            "/css",
+////            "/css",
 //            "/css/**",
 //            "/js/**",
 //            "/images/**",
 //            "/swagger-ui/**"
 //    };
 //
+////    @Autowired
+////    public SecurityConfig(DataSource dataSource, PasswordEncoder passwordEncoder) {
+////        this.dataSource = dataSource;
+////        this.passwordEncoder = passwordEncoder;
+////    }
+//
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//
 //        http
-//                .authorizeHttpRequests(authorizeRequests ->
+//                .authorizeHttpRequests((authorizeRequests) ->
 //                        authorizeRequests
 //                                .requestMatchers("/client/**").hasRole("CLIENT")
 //                                .requestMatchers("/manager/**").hasRole("MANAGER")
@@ -63,7 +68,9 @@
 //    }
 //
 ////    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-////        auth.userDetailsService(u)
+////        auth.jdbcAuthentication()
+////                .dataSource(dataSource)
+////                .passwordEncoder()
 ////    }
 //
 ////    @Bean

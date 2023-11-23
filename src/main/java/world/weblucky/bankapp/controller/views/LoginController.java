@@ -1,4 +1,4 @@
-package world.weblucky.bankapp.controller;
+package world.weblucky.bankapp.controller.views;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,9 @@ public class LoginController {
         User user = authenticationService.authenticateUser(username, password);
         if (user != null) {
             if (user instanceof ClientDTO) {
-                return "redirect:/client/" + ((ClientDTO) user).getId();
+                model.addAttribute("client", ((ClientDTO) user).getId());
+//                return "redirect:/client/" + ((ClientDTO) user).getId();
+                return "redirect:/client";
             }
             if (user instanceof ManagerDTO) {
                 return "redirect:/manager/" + ((ManagerDTO) user).getId();
@@ -45,27 +47,6 @@ public class LoginController {
 
         model.addAttribute("error", "Invalid login or password. Please try again.");
         return "login";
-    }
-
-    @GetMapping("/signin")
-    public String getRegisterPage(Model model) {
-        model.addAttribute("title", "Registration page | LuckyBank APP");
-        model.addAttribute("clientDto", new ClientDTO());
-        return "signin";
-    }
-
-    @PostMapping("/signin")
-    public String registerNewClient(@Valid @ModelAttribute("clientDto") ClientDTO clientDto,
-                                    BindingResult bindingResult,
-                                    Model model) {
-        Client registeredClient = clientService.createClient(clientDto, bindingResult);
-
-        if (bindingResult.hasErrors() || registeredClient == null) {
-            model.addAttribute("clientDto", clientDto);
-            return "signin";
-        }
-
-        return "redirect:/login";
     }
 
 }

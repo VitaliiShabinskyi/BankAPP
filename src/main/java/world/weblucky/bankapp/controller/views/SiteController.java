@@ -1,4 +1,4 @@
-package world.weblucky.bankapp.controller;
+package world.weblucky.bankapp.controller.views;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +13,6 @@ public class SiteController {
     public String getHomePage(Model model) {
         model.addAttribute("title", "Welcome to LuckyBank APP");
 
-        return "home";
+        return "index";
     }
 }

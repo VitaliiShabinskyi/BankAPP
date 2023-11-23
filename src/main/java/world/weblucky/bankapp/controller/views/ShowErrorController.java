@@ -1,4 +1,4 @@
-package world.weblucky.bankapp.controller;
+package world.weblucky.bankapp.controller.views;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
